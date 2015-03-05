@@ -5,51 +5,95 @@ public class Båteierliste {
 	private Båteier kapteiner;
 	private Båt joller;
 	
-	public Båteierliste(){
-		node = null;
+	private Node nodeType(Node n){
+            if(n instanceof Båteier){
+                Node node = kapteiner;
+                return node;
+            }
+            else if(n instanceof Båt){
+                Node node = joller;
+                return node;
+            }
+                
+		return null;
 	}
+        
+        
 
 	public void nyBåteier(Båteier ny){
-		if (node == null){
-			node = ny;
-		}
+           // Node node = ny;
+            Båteier node = kapteiner;
+            
+            if (node == null){
+		node = ny;
+            }
 
-		else {
-			Båteier ekstra = node;
-			
-			while (ekstra.neste != null) {
-				ekstra = ekstra.neste;
-			}
-			ekstra.neste = ny;
-		}
-	}
+            else {
+                while (node.neste != null){
+                    node = node.neste;
+                }
+                node.neste = ny;
+            }
+        }
+        
+        
 	public String nyBåt (Båt b, String eier){
-		Båteier be = finn (eier);
-		if (be == null) {
-			return "Båten har ingen eier, dette må registreres først!";
-		}
-		if (finnEier(b.getRegNr()) != null) {
-			return b.getRegNr() + " tidligere registrert.";
-		}
-		be.nyBåt(b);
-		return "Da er Båten registrert :D";
+            Båteier be = finnEier(eier);
+            if (be == null){
+                return "Båten har ingen eier, dette må registreres først!";
+            }
+            if(finnEier(b.getRegNr()) != null){
+                return b.getRegNr() + " Tidligere registrert båt.";
+            }
+            Båt node = joller;
+            
+            if (node == null){
+		node = b;
+            }
+            
+            else {
+                while (node.neste != null){
+                    node = node.neste;
+                }
+                node.neste = b;
+            }
+            be.nyBåt(b);
+            return "Da er Båten registrert :D";
 	}
 	
-	public Båteier finn(String medlemsNr){
-		if (node == null){
-			return null;
+        public Båt finnBåt(String regNr){
+            Båt node = joller;
+            
+            if (node == null){
+                    return null;
 		}
-		Båteier ekstra = node;
-		
-		while (ekstra != null) {
-			if (ekstra.getMedlem().equals(medlemsNr)) {
-				return ekstra;
-			} else {
-				ekstra = ekstra.neste;
-			}
+            while (node.neste != null) {
+                if (node.getRegNr().equals(regNr)){
+                    return node;
+                }
+                else{
+                    node = node.neste;
+                }
+            }
+            return null;
+        }
+        
+	public Båteier finnEier(String medlemsNr){
+            Båteier node = kapteiner;
+            
+            if (node == null){
+                    return null;
 		}
-		return ekstra;
-	}
+            while (node.neste != null) {
+                if (node.getMedlem().equals(medlemsNr)){
+                    return node;
+                }
+                else{
+                    node = node.neste;
+                }
+            }
+            return null;
+        }
 	
 	public Båteier slettBåteier(String medlemsNr){
 		if (node == null) {
@@ -115,7 +159,7 @@ public class Båteierliste {
 			return back;
 		}
 	}
-	
+	/*
 	public Båteier finnEier(String regNr){
 		if (node == null) {
 			return null;
@@ -130,7 +174,7 @@ public class Båteierliste {
 		}
 		return null;
 	}
-	
+	*/
 	public String skiftEier(String regNr, String nyMedlemNr){
 		Båteier eier = finnEier(regNr);
 		if (eier == null) {

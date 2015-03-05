@@ -1,4 +1,4 @@
-public class Båt {
+public class Båt extends Node{
 	private String regNr;
 	private String merke;
 	private String farge;

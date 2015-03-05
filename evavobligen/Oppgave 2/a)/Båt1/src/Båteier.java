@@ -1,5 +1,5 @@
 
-public class Båteier{
+public class Båteier extends Node{
 	
 	private String navn;
 	private String adresse;
