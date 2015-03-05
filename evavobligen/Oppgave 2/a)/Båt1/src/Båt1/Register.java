@@ -33,7 +33,7 @@ public class Register {
             node.neste = ny;
         }
         
-        System.out.println(kapteiner);
+        
     }
     
     private String nyBåt (Båt b){            
@@ -69,14 +69,16 @@ public class Register {
             return null;
         }
     
-    public Båteier finnEier(String medlemsNr){
+    public Båteier finnEier(int medlemsNr){
             Båteier node = kapteiner;
             
             if (node == null){
+                System.out.println("nepper ner");
                     return null;
 		}
             while (node.neste != null) {
-                if (node.getMedlem() == Integer.parseInt(medlemsNr)){
+                System.out.println("");
+                if (node.getMedlem() == medlemsNr){
                     return node;
                 }
                 else{
@@ -86,20 +88,21 @@ public class Register {
             return null;
         }
     
-    public String registerNyBåt (Båt b, String medlemsNr){
+    public String registerNyBåt (Båt b, int medlemsNr){
         
-        Båteier be = finnEier(medlemsNr);
+        Båteier eier = finnEier(medlemsNr);
+        Båteier resitrertEier = finnEier(b.getEier());
            
-        if (be == null){
+        if (eier == null){
             return "Båten har ingen eier, dette må registreres først!";
         }
         
-        if(finnEier(b.getRegNr()) != null){
+        if(eier.getBåt() != null){
                 
-            return b.getRegNr() + " Tidligere registrert båt.";
+            return eier.getNavn() + " har alerede en registrert båt.";
         }
 
-            be.nyBåt(b);
+            eier.nyBåt(b);
             b.setEier(medlemsNr);//hush
             return "Da er Båten registrert :D";
 	}
@@ -144,7 +147,7 @@ public class Register {
         if(båt == null)
             return "Denne båten finnes ikke i registere"; 
         if(båt != null)
-            båt.setEier(null);
+            båt.setEier(0);
         
         Båt løper = joller;
         if(løper == null){
@@ -161,8 +164,9 @@ public class Register {
         }return "Denne båten er ikke i registeret";
         }
     
-    public String slettEier(String medlemsNr){
+    public String slettEier(int medlemsNr){
         Båteier eier = finnEier(medlemsNr);
+        System.out.println(eier);
         if(eier == null) return "denne personen finnes ikke";
         Båteier forestGump = kapteiner;
         if(forestGump == eier){
@@ -179,12 +183,12 @@ public class Register {
         return "fant ikke denne personen";
     }
     
-    public String eierData(String medlemsNr){
+    public String eierData(int medlemsNr){
         Båteier eier = finnEier(medlemsNr);
         return eier.toString();
     }
     
-    public String skiftEier(String regNr, String medlemsNr){
+    public String skiftEier(String regNr, int medlemsNr){
         Båt båt = finnBåt(regNr);
         if(båt == null)
         {

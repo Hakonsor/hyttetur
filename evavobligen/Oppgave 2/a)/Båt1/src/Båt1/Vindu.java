@@ -139,19 +139,18 @@ public class Vindu extends JFrame {
     public void actionPerformed( ActionEvent e )
     {
       if ( e.getSource() == registerEier ){
-
           register.nyBåteier(new Båteier(navnField.getText(), adrField.getText()));
           register.skrivListe(utskriftsFelt);
       }
-            
+      else if ( e.getSource() == slettEier ){
           
-      else if ( e.getSource() == slettEier )
-          
-            register.slettBåt(regNrField.getText());
+            register.slettEier(Integer.parseInt(medlemsNrField.getText()));
+            register.skrivListe(utskriftsFelt);
+      }
           
       else if ( e.getSource() == regBåt )
           
-            register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), medlemsNrField.getText());
+            register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), Integer.parseInt(medlemsNrField.getText()));
           
       else if ( e.getSource() == slettBåt )
             register.slettBåt(regNrField.getText());
