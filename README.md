@@ -1,0 +1,2 @@
+# hyttetur
+arbeid før hyttetur
