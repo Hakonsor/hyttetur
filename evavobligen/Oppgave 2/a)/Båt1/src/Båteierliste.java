@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-public class Båteierliste {
+public class Register {
 	private Båteier kapteiner;
 	private Båt joller;
 	

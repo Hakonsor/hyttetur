@@ -6,12 +6,20 @@ public class Båteier extends Node{
 	private int medlemsNr;
 	public static int medlemsNrNeste;
 	private Båt båt = null;
+        
     public Båteier neste = null; 	
 	public Båteier (String n, String a, int mnr){
 		navn = n;
 		adresse = a;
 		medlemsNr = medlemsNrNeste++;
 	}
+        public String getNavn(){
+            return navn;
+        }
+        public Båt getBåt(){
+            return båt;
+            
+        }
 
 	public String getMedlem(){
 		return medlemsNr;
@@ -31,6 +39,17 @@ public class Båteier extends Node{
 	public boolean slettBåt(){
 		
 	}
+        
+        public String toString(){                 
+            String s = "";
+            s += "Navn: " + navn + "\tAdresse: " + adresse + "båt:";
+                    
+            if(båt != null){
+                s += båt.toString();
+            }else s += "ingen";
+            
+            return s;
+        }
 		
 	
 }//End of class Båteier

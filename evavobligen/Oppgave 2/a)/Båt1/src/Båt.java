@@ -5,6 +5,7 @@ public class Båt extends Node{
 	private int år;
 	private int str;
 	private double hk;
+        private String eier;
 	Båt neste;
 	
 	public Båt (String nr, String m, String f, int å, int s, double h){
@@ -19,6 +20,12 @@ public class Båt extends Node{
 	public String getRegNr(){
 		return regNr;
 	}
+        public String getEier(){
+            return eier;
+        }
+        public void setEier(String e){
+            eier = e;
+        }
 	public String toString(){
 		String s = "";
 		s += "\tRegNr: " + regNr + "\n";
