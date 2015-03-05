@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-package båtregister;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -16,6 +15,7 @@ import javax.swing.*;
 
 
 public class Vindu extends JFrame {
+    private Båteierliste register = new Båteierliste();
     
     //båteier
     private JLabel navnLabel;
@@ -57,9 +57,11 @@ public class Vindu extends JFrame {
         navnLabel = new JLabel("Navn:");
         adrLabel = new JLabel("Adresse:");
         medlemsNrLabel = new JLabel("Medlems Nr");
+        
         navnField = new JTextField(10);
         adrField = new JTextField(10);        
         medlemsNrField = new JTextField(10);
+        
         registerEier = new JButton("Registrer eier");
         slettEier = new JButton("Slett eier");
         
@@ -128,13 +130,18 @@ public class Vindu extends JFrame {
     
 
      }
-    
+
+
     private class Knappelytter implements ActionListener
   {
     public void actionPerformed( ActionEvent e )
     {
-      if ( e.getSource() == registerEier )
-            System.out.println("");
+      if ( e.getSource() == registerEier ){
+          
+          register.nyBåteier(navnField.getText(),adrField.getText(), medlemsNrField.getText());
+      }
+            
+          
       else if ( e.getSource() == slettEier )
             System.out.println("");
       else if ( e.getSource() == regBåt )

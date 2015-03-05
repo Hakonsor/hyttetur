@@ -2,8 +2,8 @@ import java.util.*;
 
 
 public class Båteierliste {
-	private Båteier node;
-	
+	private Båteier kapteiner;
+	private Båt joller;
 	
 	public Båteierliste(){
 		node = null;

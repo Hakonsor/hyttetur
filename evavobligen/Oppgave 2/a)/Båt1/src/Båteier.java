@@ -11,7 +11,6 @@ public class Båteier{
 		navn = n;
 		adresse = a;
 		medlemsNr = medlemsNrNeste++;
-		båter = new Båtliste();
 	}
 
 	public String getMedlem(){
