@@ -137,8 +137,8 @@ public class Vindu extends JFrame {
     public void actionPerformed( ActionEvent e )
     {
       if ( e.getSource() == registerEier ){
-          
-          register.nyBåteier(navnField.getText(),adrField.getText(), medlemsNrField.getText());
+
+          register.nyBåteier(new Båteier(navnField.getText(), adrField.getText(), Integer.parseInt(medlemsNrField.getText())));
       }
             
           

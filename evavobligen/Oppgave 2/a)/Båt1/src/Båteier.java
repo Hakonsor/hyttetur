@@ -1,5 +1,5 @@
 
-public class Båteier{
+public class Båteier extends Node{
 	
 	private String navn;
 	private String adresse;
@@ -18,11 +18,11 @@ public class Båteier{
 	}
 	
 	public void nyBåt(Båt b){
-		Båter.settInn(b);
+		båt = b;
 	}
 	
-	public Båt fjernBåt (String regNr){
-		return Båter.fjern(regNr);
+	public void fjernBåt (){
+		båt = null ;
 	}
 	
 	public boolean eierBåt(){
