@@ -5,24 +5,35 @@ import javax.swing.JTextArea;
 
 
 public class Register {
+    
     private Båteier kapteiner;
     private Båt joller;
     
-    
+    public Register()   
+    {
+        kapteiner = null;
+        joller = null;
+    }
     
     public void nyBåteier(Båteier ny){
-        Båteier node = kapteiner;
+        if ( ny == null ) return;
+        
+       
             
-        if (node == null){
-            node = ny;
+        if (kapteiner == null){
+            kapteiner = ny;
         }
+         
 
         else {
+                Båteier node = kapteiner;
             while (node.neste != null){
                 node = node.neste;
             }
             node.neste = ny;
         }
+        
+        System.out.println(kapteiner);
     }
     
     private String nyBåt (Båt b){            
@@ -93,28 +104,41 @@ public class Register {
             return "Da er Båten registrert :D";
 	}
     
-
-    
     public void skrivListe(JTextArea båter){
         if (joller == null ){
-            båter.append("Ingen båter er registrert");
+            båter.append("Ingen båter er registrert\n");
         }
         if (this.kapteiner == null){
-            båter.append("Ingen Kapteiner er registrert");
+            båter.append("Ingen Kapteiner er registrert\n");
         }
         else{
             båter.setText("");
             
             Båteier løper = kapteiner;
-            while(løper != null){
-                båter.append(løper.toString() +""+løper.getBåt().toString()+"+\n");
-                løper = løper.neste;
+            
+           String s;
+            if(løper.getBåt() != null)
+            båter.append(""+løper.getBåt().toString()+"+\n");
+            
+            s = kapteiner.toString()+"\n";
+            if(løper.getBåt() != null)  s += løper.getBåt().toString();
+            
+            båter.append(s);
+            
+            while(løper.neste != null){
+                 løper = løper.neste;
+                s = (løper.toString());
+                if(løper.getBåt() != null)  s += løper.getBåt().toString();
+               
+                båter.append(s+"\n");
             }
+                
+            
             //skrivTilFil();
         }
         
     }
-
+    
     public String slettBåt(String regNr){
         Båt båt = (finnBåt(regNr)) ;
         if(båt == null)
@@ -154,6 +178,7 @@ public class Register {
         }
         return "fant ikke denne personen";
     }
+    
     public String eierData(String medlemsNr){
         Båteier eier = finnEier(medlemsNr);
         return eier.toString();

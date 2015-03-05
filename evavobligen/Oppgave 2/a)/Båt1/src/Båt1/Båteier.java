@@ -4,7 +4,7 @@ public class Båteier extends Node{
 	private String navn;
 	private String adresse;
 	private int medlemsNr;
-	public static int medlemsNrNeste;
+	public static int medlemsNrNeste = 1000;
 	private Båt båt = null;
         
     public Båteier neste = null; 	
@@ -37,12 +37,12 @@ public class Båteier extends Node{
         
         public String toString(){                 
             String s = "";
-            s += "Navn: " + navn + "\tAdresse: " + adresse + "båt:";
-                    
+            s += "Navn: " + navn + " \tAdresse: " + adresse + "\tbåt: " ;    
             if(båt != null){
                 s += båt.toString();
             }else s += "ingen";
             
+            s+= "\tMedlemsnummer: "+medlemsNr;
             return s;
         }
 		

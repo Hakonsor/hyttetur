@@ -141,6 +141,7 @@ public class Vindu extends JFrame {
       if ( e.getSource() == registerEier ){
 
           register.nyBåteier(new Båteier(navnField.getText(), adrField.getText()));
+          register.skrivListe(utskriftsFelt);
       }
             
           
