@@ -62,7 +62,7 @@ public class Vindu extends JFrame {
         
         navnField = new JTextField(10);
         adrField = new JTextField(10);        
-        medlemsNrField = new JTextField(10);
+        medlemsNrField = new JTextField("1000",10);
         
         registerEier = new JButton("Registrer eier");
         slettEier = new JButton("Slett eier");
@@ -74,12 +74,12 @@ public class Vindu extends JFrame {
        årLabel = new JLabel("År");     
        størelseLabel = new JLabel("Størelse");
        hestekrefterLabel = new JLabel("Hestekrefer");       
-       regNrField = new JTextField("", 10);      
-       merkeField = new JTextField("", 10);  
-       fargeField = new JTextField("", 10);  
-       årField = new JTextField("", 10);  
-       størlseField = new JTextField("", 10);   
-       hesteKrefter = new JTextField("", 10);   
+       regNrField = new JTextField("axa424", 10);      
+       merkeField = new JTextField("WHITE shark", 10);  
+       fargeField = new JTextField("grå", 10);  
+       årField = new JTextField("2008", 10);  
+       størlseField = new JTextField("22", 10);   
+       hesteKrefter = new JTextField("50", 10);   
        regBåt = new JButton("Registerer Båt");
        slettBåt = new JButton("Slett Båt");
        
@@ -148,10 +148,11 @@ public class Vindu extends JFrame {
             register.skrivListe(utskriftsFelt);
       }
           
-      else if ( e.getSource() == regBåt )
+      else if ( e.getSource() == regBåt ){
           
             register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), Integer.parseInt(medlemsNrField.getText()));
-          
+            register.skrivListe(utskriftsFelt);
+    }
       else if ( e.getSource() == slettBåt )
             register.slettBåt(regNrField.getText());
       

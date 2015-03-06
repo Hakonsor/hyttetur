@@ -73,18 +73,24 @@ public class Register {
             Båteier node = kapteiner;
             
             if (node == null){
-                System.out.println("nepper ner");
+                System.out.println("noden finnes ikke");
                     return null;
 		}
+            if(node.getMedlem() == medlemsNr){
+                return node;
+            }
+            
             while (node.neste != null) {
-                System.out.println("");
                 if (node.getMedlem() == medlemsNr){
                     return node;
                 }
                 else{
                     node = node.neste;
+                    if(node.getMedlem() == medlemsNr)
+                        return node;
                 }
             }
+            
             return null;
         }
     
@@ -108,30 +114,31 @@ public class Register {
 	}
     
     public void skrivListe(JTextArea båter){
+        båter.setText("");
         if (joller == null ){
             båter.append("Ingen båter er registrert\n");
-        }
+        } 
         if (this.kapteiner == null){
             båter.append("Ingen Kapteiner er registrert\n");
         }
         else{
-            båter.setText("");
+            
             
             Båteier løper = kapteiner;
             
            String s;
-            if(løper.getBåt() != null)
-            båter.append(""+løper.getBåt().toString()+"+\n");
+            //if(løper.getBåt() != null)
+            //båter.append(""+løper.getBåt().toString()+"\n");
             
             s = kapteiner.toString()+"\n";
-            if(løper.getBåt() != null)  s += løper.getBåt().toString();
+            //if(løper.getBåt() != null)  s += løper.getBåt().toString();
             
             båter.append(s);
             
             while(løper.neste != null){
                  løper = løper.neste;
                 s = (løper.toString());
-                if(løper.getBåt() != null)  s += løper.getBåt().toString();
+                //if(løper.getBåt() != null)  s += løper.getBåt().toString();
                
                 båter.append(s+"\n");
             }
@@ -168,18 +175,21 @@ public class Register {
         Båteier eier = finnEier(medlemsNr);
         System.out.println(eier);
         if(eier == null) return "denne personen finnes ikke";
+        
         Båteier forestGump = kapteiner;
         if(forestGump == eier){
             kapteiner = forestGump.neste;
             
         }
         while(forestGump.neste != null){
-            if(forestGump.neste == eier){
+            if(forestGump.neste.equals(eier)){
                 forestGump.neste = forestGump.neste.neste;
                 return " "+eier.getNavn()+"Denne personen er fjernet";
                 // ja vi vet at vi skal ha toString
             }
+            forestGump = forestGump.neste;
         }
+        
         return "fant ikke denne personen";
     }
     

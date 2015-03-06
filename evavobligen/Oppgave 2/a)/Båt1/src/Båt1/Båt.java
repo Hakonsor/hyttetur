@@ -1,5 +1,5 @@
 package Båt1;
-public class Båt extends Node{
+public class Båt{
 	private String regNr;
 	private String merke;
 	private String farge;
@@ -28,12 +28,12 @@ public class Båt extends Node{
             medlemmEier = e;
         }
 	public String toString(){
-		String s = "";
-		s += "\tRegNr: " + regNr + "\n";
+		String s = "\n";
+		s += "RegNr: " + regNr + "";
 		s += "\tMerke: " + merke + "\n";
-		s += "\tFarge: " + farge + "\n";
+		s += "Farge: " + farge + "";
 		s += "\tÅr: " + år + "\n";
-		s += "\tStr: " + str + "\n";
+		s += "Str: " + str + "";
 		s += "\tHK: " + hk + "\n";
 		return s;
 	}
