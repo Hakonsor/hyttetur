@@ -1,5 +1,9 @@
 package Båt1;
-public class Båt{
+
+import java.io.Serializable;
+
+public class Båt implements Serializable{
+    
 	private String regNr;
 	private String merke;
 	private String farge;
@@ -21,9 +25,11 @@ public class Båt{
 	public String getRegNr(){
 		return regNr;
 	}
+        
         public int getEier(){
             return medlemmEier;
         }
+        
         public void setEier(int e){
             medlemmEier = e;
         }

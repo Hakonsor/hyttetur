@@ -79,12 +79,15 @@ public class Vindu extends JFrame {
        fargeField = new JTextField("grå", 10);  
        årField = new JTextField("2008", 10);  
        størlseField = new JTextField("22", 10);   
-       hesteKrefter = new JTextField("50", 10);   
+       hesteKrefter = new JTextField("50", 10); 
+       
+       søkBåt = new JButton("Søk etter eier av Båt");
        regBåt = new JButton("Registerer Båt");
        slettBåt = new JButton("Slett Båt");
+       registrerNyEier = new JButton("Registrer ny eier på båt");
        
        //misc
-       bytteRegLabel = new JLabel("Navn:");
+       bytteRegLabel = new JLabel("Medlemsnummer til ny eier:");
        bytteRegField = new JTextField(10);
        utskriftsFelt = new JTextArea(40,40);
                 
@@ -117,53 +120,68 @@ public class Vindu extends JFrame {
        c.add(hesteKrefter);
        c.add(regBåt );
        c.add(slettBåt );
+       c.add(søkBåt);
        
        //misc
        c.add(bytteRegLabel);
-       c.add(bytteRegField);       
+       c.add(bytteRegField);
+       c.add(registrerNyEier);
        c.add(utskriftsFelt);
        
        Knappelytter lytter = new Knappelytter();
        
+    registrerNyEier.addActionListener(lytter);
     registerEier.addActionListener( lytter );
     slettEier.addActionListener( lytter );
     regBåt.addActionListener( lytter );
     slettBåt.addActionListener( lytter );
+    søkBåt.addActionListener(lytter);
     
-
+    register.skrivListe(utskriftsFelt);
      }
 
 
     private class Knappelytter implements ActionListener
   {
+    @Override
     public void actionPerformed( ActionEvent e )
     {
       if ( e.getSource() == registerEier ){
           register.nyBåteier(new Båteier(navnField.getText(), adrField.getText()));
           register.skrivListe(utskriftsFelt);
+          register.skrivTilFil();
       }
       else if ( e.getSource() == slettEier ){
           
-            register.slettEier(Integer.parseInt(medlemsNrField.getText()));
+            JOptionPane.showMessageDialog(null, register.slettEier(Integer.parseInt(medlemsNrField.getText())));
             register.skrivListe(utskriftsFelt);
+            register.skrivTilFil();
       }
           
       else if ( e.getSource() == regBåt ){
           
-            register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), Integer.parseInt(medlemsNrField.getText()));
+            JOptionPane.showMessageDialog(null, register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), Integer.parseInt(medlemsNrField.getText())));
             register.skrivListe(utskriftsFelt);
+            register.skrivTilFil();
     }
-      else if ( e.getSource() == slettBåt )
-            register.slettBåt(regNrField.getText());
-      
+      else if ( e.getSource() == slettBåt ){
+            JOptionPane.showMessageDialog(null, register.slettBåt(regNrField.getText())); 
+            register.skrivListe(utskriftsFelt);
+            register.skrivTilFil();
     }
+       else if (e.getSource() == søkBåt){
+           utskriftsFelt.setText(register.finnEier(register.finnBåt(regNrField.getText()).getEier()).toString());
+           register.skrivTilFil();
+       }
+       else if (e.getSource() == registrerNyEier){
+           JOptionPane.showMessageDialog(null, register.skiftEier( regNrField.getText(),Integer.parseInt(bytteRegField.getText())));
+           register.skrivListe(utskriftsFelt);
+           register.skrivTilFil();
+           
+       }
+       //else if
   }
-    
-    
-    
-    
-    
-    
-   
+
+}
     
 }

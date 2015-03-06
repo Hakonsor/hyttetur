@@ -10,6 +10,6 @@ public class Båt1 {
         v.setVisible(true);
         v.setSize(500, 500);
         v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       
+    
     }
 }

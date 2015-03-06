@@ -1,5 +1,7 @@
 package Båt1;
 
+
+import java.io.*;
 import java.util.*;
 import javax.swing.JTextArea;
 
@@ -9,10 +11,32 @@ public class Register {
     private Båteier kapteiner;
     private Båt joller;
     
-    public Register()   
-    {
+    public Register()   {
         kapteiner = null;
         joller = null;
+        
+        lesOppfil();
+        if( kapteiner != null)
+            kapteiner.setStaticNR(sisteKaptein());
+    }
+    
+    public int sisteKaptein(){
+    
+        Båteier løper = kapteiner;
+       
+        
+        if( kapteiner == null)
+            return 999;
+        else{
+            while(løper.neste != null)
+                løper = løper.neste;
+                return løper.getMedlem()+1;
+        }
+        
+                
+          
+        
+        
     }
     
     public void nyBåteier(Båteier ny){
@@ -36,29 +60,31 @@ public class Register {
         
     }
     
-    private String nyBåt (Båt b){            
-        Båt node = joller;
+    private void nyBåt (Båt b){   
+          if ( b == null ) return;
+        
+        
                        
-        if (node == null){		
-            node = b;            
+        if (joller == null){		
+            joller = b;            
         }
                         
         else {               
+            Båt node = joller;
             while (node.neste != null){                  
                 node = node.neste;               
             }               
             node.neste = b;
         }
-        return null;
+        
     }
     
     public Båt finnBåt(String regNr){
             Båt node = joller;
-            
-            if (node == null){
+            if (node == null){           
                     return null;
 		}
-            while (node.neste != null) {
+            while (node != null) {
                 if (node.getRegNr().equals(regNr)){
                     return node;
                 }
@@ -107,9 +133,16 @@ public class Register {
                 
             return eier.getNavn() + " har alerede en registrert båt.";
         }
-
-            eier.nyBåt(b);
+        String regNr = b.getRegNr();
+       Båt ulovligBåt = finnBåt(regNr);     
+              
+        if(ulovligBåt != null)
+            return "Denne båten har allerede en eier! FY";
+        
+        
+            eier.setBåt(b);
             b.setEier(medlemsNr);//hush
+            nyBåt(b);
             return "Da er Båten registrert :D";
 	}
     
@@ -151,23 +184,28 @@ public class Register {
     
     public String slettBåt(String regNr){
         Båt båt = (finnBåt(regNr)) ;
+        Båteier eier;
+        
         if(båt == null)
             return "Denne båten finnes ikke i registere"; 
-        if(båt != null)
-            båt.setEier(0);
         
+        eier = finnEier(båt.getEier());
+        eier.setBåt(null);
+        båt.setEier(0);
+            
         Båt løper = joller;
         if(løper == null){
             return "Det er ikke registert noen båter";
         }// denne feilmeingen kommer aldri
-        if(løper == båt) 
+        if(løper == båt){
             joller = løper.neste;
+            return "Denne båten er nå fjernet";
+        }
         while(løper.neste != null){
             if (løper.neste == båt){
                 løper.neste = løper.neste.neste;
                 return "Denne båten er nå fjernet";
             }
-            
         }return "Denne båten er ikke i registeret";
         }
     
@@ -176,9 +214,13 @@ public class Register {
         System.out.println(eier);
         if(eier == null) return "denne personen finnes ikke";
         
+        if(eier.getBåt() != null)
+            return "Båt må skifte eier før du kan slette medlem!";
+        
         Båteier forestGump = kapteiner;
         if(forestGump == eier){
             kapteiner = forestGump.neste;
+        
             
         }
         while(forestGump.neste != null){
@@ -199,7 +241,9 @@ public class Register {
     }
     
     public String skiftEier(String regNr, int medlemsNr){
+        
         Båt båt = finnBåt(regNr);
+        System.out.println(båt);
         if(båt == null)
         {
             return "Finner ikke båt";
@@ -213,10 +257,43 @@ public class Register {
        return "Finner ikke Eier!";
        }
        
-           nyEier.nyBåt(båt);
-           eier.nyBåt(null);
+           nyEier.setBåt(båt);
+           eier.setBåt(null);
+           båt.setEier(nyEier.getMedlem());
            
            return nyEier.getNavn()+" Har nå båten "+båt.getRegNr();
 
 	}
+    
+    public void skrivTilFil(){
+        try(ObjectOutputStream utfil = new ObjectOutputStream(
+                               new FileOutputStream( "Båt.dta" ) ))
+        {
+         utfil.writeObject( kapteiner );
+         utfil.writeObject( joller );
+        }
+        catch( IOException ex){
+            System.out.println("nor dette funker");
+        }  
+    }
+    
+    public void lesOppfil(){
+      try( ObjectInputStream innfil = new ObjectInputStream(
+                               new FileInputStream( "Båt.dta" ) )){
+          
+      Båteier båteier = (Båteier) innfil.readObject();
+      Båt båt = (Båt) innfil.readObject();
+      kapteiner = båteier;
+      joller = båt;
+      
+      }
+      catch(ClassNotFoundException e){
+          System.out.println("nope");
+      }
+      catch(IOException ex){
+          System.out.println("");
+      }
+    
+    
+    }
 }//End of class Register
