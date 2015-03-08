@@ -3,6 +3,7 @@ package båt2;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 
@@ -21,6 +22,7 @@ public class Register {
     }
     
     public void nyBåt (Båt b){   
+
         if ( b == null ) return;              
         if (joller == null){		
             joller = b;            
@@ -28,13 +30,13 @@ public class Register {
                         
         else {               
             Båt node = joller;
-            while (node.neste != null){                  
+            while (node != null){                  
                 node = node.neste;               
             }               
-            node.neste = b;
-        }
-        
+            node = b;
+            }
     }
+    
 
     public int sisteKaptein(){
     
@@ -61,7 +63,7 @@ public class Register {
                     return null;
 		}
             while (node != null) {
-                if (node.getRegNr().equals(regNr)){
+                if (node.getRegNr().matches(regNr)){
                     return node;
                 }
                 else{
@@ -73,14 +75,11 @@ public class Register {
     
     public void nyBåteier(Båteier ny){
         if ( ny == null ) return;
-        
-       
-            
+  
         if (kapteiner == null){
             kapteiner = ny;
         }
          
-
         else {
                 Båteier node = kapteiner;
             while (node.neste != null){
@@ -129,11 +128,14 @@ public class Register {
         
         if(ulovligBåt != null)
             return "Denne båten har allerede en eier! FY";
-        
+            
             eier.nyBåt(b);
+          
             b.setEier(medlemsNr);//hush
+           
             nyBåt(b);
-            return "Da er Båten registrert :D";
+ 
+            return "Da er Båten registrert";
 	}
     
     public void skrivListe(JTextArea utSkrift){
@@ -148,16 +150,17 @@ public class Register {
 
             Båteier løper = kapteiner;
 
-            String s = "";
             if(løper.neste == null)
-                s = løper.toString();
+                utSkrift.append( løper.toString()+"\n");;
             
             while(løper.neste != null){
-                 s += (løper.toString());
+                  utSkrift.append(løper.toString()+"\n");
                  løper = løper.neste;
+                 if(løper.neste == null){
+                      utSkrift.append(løper.toString()+"\n");
+                      
+                 }
             }
-                utSkrift.append(s+"\n");  
-            //skrivTilFil();
         }
     }
     
@@ -244,19 +247,19 @@ public class Register {
     
     public void skrivTilFil(){
         try(ObjectOutputStream utfil = new ObjectOutputStream(
-                               new FileOutputStream( "Båt.dta" ) ))
+                               new FileOutputStream( "Båt2.dta" ) ))
         {
          utfil.writeObject( kapteiner );
          utfil.writeObject( joller );
         }
         catch( IOException ex){
-            System.out.println("nor dette funker");
+            JOptionPane.showMessageDialog(null, "Misslykket lagreing \n"+ ex);
         }  
     }
     
     public void lesOppfil(){
       try( ObjectInputStream innfil = new ObjectInputStream(
-                               new FileInputStream( "Båt.dta" ) )){
+                               new FileInputStream( "Båt2.dta" ) )){
           
       Båteier båteier = (Båteier) innfil.readObject();
       Båt båt = (Båt) innfil.readObject();
@@ -265,10 +268,10 @@ public class Register {
       
       }
       catch(ClassNotFoundException e){
-          System.out.println("nope");
+          System.out.println(e);
       }
       catch(IOException ex){
-          System.out.println("");
+          System.out.println(ex);
       }
     
     

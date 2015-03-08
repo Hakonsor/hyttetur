@@ -6,9 +6,12 @@
 
 package båt2;
 
-public class Båtliste {
+import java.io.Serializable;
+
+public class Båtliste implements Serializable{
     private Båt joller = null;
     public void nyBåt (Båt b){   
+
         if ( b == null ) return;              
         if (joller == null){		
             joller = b;            
@@ -16,13 +19,14 @@ public class Båtliste {
                         
         else {               
             Båt node = joller;
-            while (node.neste != null){                  
+            while (node != null){                  
                 node = node.neste;               
             }               
-            node.neste = b;
+            node = b;
+            
         }
-        
     }
+    
     public Båt finnBåt(String regNr){
             Båt node = joller;
             if (node == null){           
@@ -53,14 +57,17 @@ public class Båtliste {
                 løper.neste = løper.neste.neste;
                 return true;
             }
+            løper = løper.neste;
         }return false;
         }
+    @Override
     public String toString(){
         String s = "";
         Båt løper = joller;
         if(løper == null) return "Ingen Båter i registeret";
         if(løper.neste == null) return løper.toString();
-        while(løper.neste != null){
+        
+        while(løper != null){
             s += løper.toString();
             løper = løper.neste;
         }
