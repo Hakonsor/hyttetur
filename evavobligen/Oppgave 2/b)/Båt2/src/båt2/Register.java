@@ -234,13 +234,20 @@ public class Register {
       
       
       }
-      catch(ClassNotFoundException e){
-          System.out.println(e);
-      }
-      catch(IOException ex){
-          System.out.println(ex);
-      }
-    
+        catch(ClassNotFoundException e){
+          System.out.println("nope");
+        }
+        catch(EOFException e){
+            JOptionPane.showMessageDialog(null, "Innlesning fra fil var velkket!");
+        }
+
+	catch(FileNotFoundException fnfe){
+            JOptionPane.showMessageDialog(null, "Innlesning fra fil var mislykket.");
+	}
+
+	catch(IOException ioe){
+            JOptionPane.showMessageDialog(null, "Innlesning fra fil var mislykket.");
+	}
     
     }
 }//End of class Registe

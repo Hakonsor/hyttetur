@@ -63,7 +63,7 @@ public class Vindu extends JFrame {
         
         navnField = new JTextField(10);
         adrField = new JTextField(10);        
-        medlemsNrField = new JTextField("1000",10);
+        medlemsNrField = new JTextField("",10);
         
         registerEier = new JButton("Registrer eier");
         slettEier = new JButton("Slett eier");
@@ -75,12 +75,12 @@ public class Vindu extends JFrame {
        årLabel = new JLabel("År");     
        størelseLabel = new JLabel("Størelse");
        hestekrefterLabel = new JLabel("Hestekrefer");       
-       regNrField = new JTextField("axa424", 10);      
-       merkeField = new JTextField("WHITE shark", 10);  
-       fargeField = new JTextField("grå", 10);  
-       årField = new JTextField("2008", 10);  
-       størlseField = new JTextField("22", 10);   
-       hesteKrefter = new JTextField("50", 10); 
+       regNrField = new JTextField("", 10);      
+       merkeField = new JTextField("", 10);  
+       fargeField = new JTextField("", 10);  
+       årField = new JTextField("", 10);  
+       størlseField = new JTextField("", 10);   
+       hesteKrefter = new JTextField("", 10); 
        
        søkBåt = new JButton("Søk etter eier av Båt");
        regBåt = new JButton("Registerer Båt");
@@ -155,33 +155,63 @@ public class Vindu extends JFrame {
     public void actionPerformed( ActionEvent e )
     {
       if ( e.getSource() == registerEier ){
+           try{
           register.nyBåteier(new Båteier(navnField.getText(), adrField.getText()));
           register.skrivListe(utskriftsFelt);
           register.skrivTilFil();
+          }
+          catch ( NumberFormatException nfe ){
+            JOptionPane.showMessageDialog(null, "Ugyldig tegn, FY FY!");
+        }
       }
       else if ( e.getSource() == slettEier ){
+          try{
             JOptionPane.showMessageDialog(null, register.slettEier(Integer.parseInt(medlemsNrField.getText())));
             register.skrivListe(utskriftsFelt);
             register.skrivTilFil();
+            }
+            catch ( NumberFormatException nfe ){
+                JOptionPane.showMessageDialog(null, "Ugyldig tegn, Skriv inn Heltall i medlemsnummer");
+            }
       }
       else if ( e.getSource() == regBåt ){
+          try{
             JOptionPane.showMessageDialog(null, register.registerNyBåt(new Båt(regNrField.getText(), merkeField.getText(), fargeField.getText(), Integer.parseInt(årField.getText()), Integer.parseInt(størlseField.getText()), Double.parseDouble(hesteKrefter.getText()) ), Integer.parseInt(medlemsNrField.getText())));
             register.skrivListe(utskriftsFelt);
             register.skrivTilFil();
+          }
+          catch ( NumberFormatException nfe ){
+            JOptionPane.showMessageDialog(null, "Ugyldig tegn, Skriv inn heltall i årsfelt, størrelse og medlemsnr");
+        }
       }
       else if ( e.getSource() == slettBåt ){
+           try{
             JOptionPane.showMessageDialog(null, register.slettBåt(regNrField.getText()/*,Integer.parseInt( medlemsNrField.getText())*/ )); 
             register.skrivListe(utskriftsFelt);
             register.skrivTilFil();
+            }
+          catch ( NumberFormatException nfe ){
+            JOptionPane.showMessageDialog(null, "Ugyldig tegn, FY FY!");
+        }
       }
       else if (e.getSource() == søkBåt){
+           try{
            utskriftsFelt.setText(register.finnEier(regNrField.getText()).toString());
            register.skrivTilFil();
+           }
+          catch ( NumberFormatException nfe ){
+            JOptionPane.showMessageDialog(null, "Ugyldig tegn, FY FY!");
+        }
       }
       else if (e.getSource() == registrerNyEier){
+           try{
            JOptionPane.showMessageDialog(null, register.skiftEier( regNrField.getText(),Integer.parseInt(bytteRegField.getText())));
            register.skrivListe(utskriftsFelt);
            register.skrivTilFil();
+           }
+          catch ( NumberFormatException nfe ){
+            JOptionPane.showMessageDialog(null, "Ugyldig tegn, Skriv inn helltall i ny eier");
+        }
       }
        //else if
   }
