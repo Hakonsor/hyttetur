@@ -162,7 +162,7 @@ public class Vindu extends JFrame {
             register.skrivTilFil();
       }
       else if ( e.getSource() == slettBåt ){
-            JOptionPane.showMessageDialog(null, register.slettBåt(regNrField.getText())); 
+            JOptionPane.showMessageDialog(null, register.slettBåt(regNrField.getText()/*,Integer.parseInt( medlemsNrField.getText())*/ )); 
             register.skrivListe(utskriftsFelt);
             register.skrivTilFil();
       }

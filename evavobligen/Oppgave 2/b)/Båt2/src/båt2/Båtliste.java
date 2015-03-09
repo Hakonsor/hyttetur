@@ -9,26 +9,26 @@ package båt2;
 import java.io.Serializable;
 
 public class Båtliste implements Serializable{
-    private Båt joller = null;
-    public void nyBåt (Båt b){   
+    private Båt jolle = null;
+    
+       public void nyBåt( Båt ny )
+   {
+      if ( ny == null )
+       return;
 
-        if ( b == null ) return;              
-        if (joller == null){		
-            joller = b;            
-        }
-                        
-        else {               
-            Båt node = joller;
-            while (node != null){                  
-                node = node.neste;               
-            }               
-            node = b;
-            
-        }
-    }
+     if ( jolle == null )
+       jolle = ny;
+     else
+     {
+       Båt løper = jolle;
+       while ( løper.neste != null )
+         løper = løper.neste;
+      løper.neste = ny;
+     }
+   }
     
     public Båt finnBåt(String regNr){
-            Båt node = joller;
+            Båt node = jolle;
             if (node == null){           
                     return null;
 		}
@@ -43,13 +43,14 @@ public class Båtliste implements Serializable{
             return null;
         }
     public boolean slettBåt(String regNr){
-        Båt fjernBåt = finnBåt(regNr);     
-        Båt løper = joller;
+        Båt fjernBåt = finnBåt(regNr);    
+        System.out.println(regNr);
+        Båt løper = jolle;
         if(løper == null){
             return false;
         }// denne feilmeingen kommer aldri
         if(løper == fjernBåt){
-            joller = løper.neste;
+            jolle = løper.neste;
             return true;
         }
         while(løper.neste != null){
@@ -63,7 +64,7 @@ public class Båtliste implements Serializable{
     @Override
     public String toString(){
         String s = "";
-        Båt løper = joller;
+        Båt løper = jolle;
         if(løper == null) return "Ingen Båter i registeret";
         if(løper.neste == null) return løper.toString();
         
@@ -74,7 +75,9 @@ public class Båtliste implements Serializable{
         return s;
     }
     public boolean sjekkFlåte(){
-    return joller != null;
+        if(jolle == null) return false;
+        else
+        return true;
     }
        
            

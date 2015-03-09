@@ -11,6 +11,7 @@ public class Register {
     
     private Båteier kapteiner;
     private Båt joller;
+    private String fil = "Båt2.txt";
     
     public Register()   {
         kapteiner = null;
@@ -21,23 +22,23 @@ public class Register {
             kapteiner.setStaticNR(sisteKaptein());
     }
     
-    public void nyBåt (Båt b){   
+    public void nyBåt( Båt ny ){
+      if ( ny == null )
+       return;
 
-        if ( b == null ) return;              
-        if (joller == null){		
-            joller = b;            
-        }
-                        
-        else {               
-            Båt node = joller;
-            while (node != null){                  
-                node = node.neste;               
-            }               
-            node = b;
-            }
-    }
-    
-
+     if ( joller == null )
+       joller = ny;
+     else
+     {
+       Båt løper = joller;
+       while ( løper.neste != null )
+         løper = løper.neste;
+      løper.neste = ny;
+         
+     }
+     ny.neste = null;
+   }
+   
     public int sisteKaptein(){
     
         Båteier løper = kapteiner;
@@ -128,13 +129,14 @@ public class Register {
         
         if(ulovligBåt != null)
             return "Denne båten har allerede en eier! FY";
-            
+            System.out.println("1");
             eier.nyBåt(b);
+
           
             b.setEier(medlemsNr);//hush
-           
+           System.out.println("2");
             nyBåt(b);
- 
+            System.out.println("3");
             return "Da er Båten registrert";
 	}
     
@@ -167,8 +169,11 @@ public class Register {
     public String slettBåt(String regNr){
           
         Båt båt = (finnBåt(regNr)) ;
-        if(båt == null)
+        
+        if(joller == null)
             return "Denne båten finnes ikke i registere"; 
+        
+        
         
         Båteier eier = finnEier(båt.getEier());
         eier.fjernBåt(regNr);
@@ -190,6 +195,7 @@ public class Register {
                 løper.neste = løper.neste.neste;
                 return "Denne båten er nå fjernet";
             }
+            løper = løper.neste;
         }
         return "Denne båten er ikke i registeret";
         }
@@ -199,7 +205,7 @@ public class Register {
         if(eier == null) 
             return "Denne personen finnes ikke";
         
-        if(eier.sjekkFlåte() == false)
+        if(eier.sjekkFlåte() == true)
             return "Båt må fjernes før eier kan fjernes";
         
         Båteier forestGump = kapteiner;
@@ -247,7 +253,7 @@ public class Register {
     
     public void skrivTilFil(){
         try(ObjectOutputStream utfil = new ObjectOutputStream(
-                               new FileOutputStream( "Båt2.dta" ) ))
+                               new FileOutputStream( fil ) ))
         {
          utfil.writeObject( kapteiner );
          utfil.writeObject( joller );
@@ -259,7 +265,7 @@ public class Register {
     
     public void lesOppfil(){
       try( ObjectInputStream innfil = new ObjectInputStream(
-                               new FileInputStream( "Båt2.dta" ) )){
+                               new FileInputStream( fil ) )){
           
       Båteier båteier = (Båteier) innfil.readObject();
       Båt båt = (Båt) innfil.readObject();
