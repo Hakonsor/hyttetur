@@ -10,7 +10,6 @@ public class Båt implements Serializable{
 	private int år;
 	private int str;
 	private double hk;
-        private int medlemmEier;
 	Båt neste;
 	
 	public Båt (String nr, String m, String f, int å, int s, double h){
@@ -26,13 +25,9 @@ public class Båt implements Serializable{
 		return regNr;
 	}
         
-        public int getEier(){
-            return medlemmEier;
-        }
+
         
-        public void setEier(int e){
-            medlemmEier = e;
-        }
+   
 	public String toString(){
 		String s = "\n";
 		s += "RegNr: " + regNr + "";

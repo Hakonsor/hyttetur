@@ -17,6 +17,7 @@ import javax.swing.*;
 public class Vindu extends JFrame {
     private Register register = new Register();
     
+    
     //båteier
     private JLabel navnLabel;
     private JLabel adrLabel;
@@ -89,7 +90,7 @@ public class Vindu extends JFrame {
        //misc
        bytteRegLabel = new JLabel("Medlemsnummer til ny eier:");
        bytteRegField = new JTextField(10);
-       utskriftsFelt = new JTextArea(40,40);
+       utskriftsFelt = new JTextArea(20,40);
                 
        Container c = getContentPane();
        
@@ -102,8 +103,7 @@ public class Vindu extends JFrame {
        c.add(adrField );
        c.add(medlemsNrLabel);
        c.add(medlemsNrField);
-       c.add(registerEier);
-       c.add(slettEier);
+      
        
        //båt
        c.add(regNrLabelr);
@@ -118,16 +118,19 @@ public class Vindu extends JFrame {
        c.add(størlseField);
        c.add(hestekrefterLabel);
        c.add(hesteKrefter);
+
+       c.add(bytteRegLabel);
+       c.add(bytteRegField);
+       //misc   
+       
+       c.add(registerEier);
+       c.add(slettEier); 
        c.add(regBåt );
        c.add(slettBåt );
        c.add(søkBåt);
-       
-       //misc
-       c.add(bytteRegLabel);
-       c.add(bytteRegField);
        c.add(registrerNyEier);
-       c.add(utskriftsFelt);
-       
+       c.add( new JScrollPane( utskriftsFelt));
+ 
        Knappelytter lytter = new Knappelytter();
        
     registrerNyEier.addActionListener(lytter);
@@ -138,6 +141,11 @@ public class Vindu extends JFrame {
     søkBåt.addActionListener(lytter);
     
     register.skrivListe(utskriftsFelt);
+    
+        setVisible(true);
+        setSize(500, 550);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      //  setLocation(200, 200);
      }
 
 
@@ -167,7 +175,7 @@ public class Vindu extends JFrame {
             register.skrivTilFil();
       }
       else if (e.getSource() == søkBåt){
-           utskriftsFelt.setText(register.finnEier(register.finnBåt(regNrField.getText()).getEier()).toString());
+           utskriftsFelt.setText(register.finnEier(regNrField.getText()).toString());
            register.skrivTilFil();
       }
       else if (e.getSource() == registrerNyEier){

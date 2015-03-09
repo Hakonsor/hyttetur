@@ -23,9 +23,7 @@ public class Båt2 {
         
         Vindu v = new Vindu();
         
-        v.setVisible(true);
-        v.setSize(500, 500);
-        v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     
     }
 }
